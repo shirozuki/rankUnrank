@@ -167,7 +167,7 @@ func main() {
 		} else {
 			fmt.Println(" Poprzednik: ", unrank(befArr, ln, rank-1))
 		}
-		if rank+1 >= fct-1 {
+		if rank+1 > fct {
 			fmt.Println("Następnik nie istnieje.")
 		} else {
 			fmt.Println("  Następnik: ", unrank(aftArr, ln, rank+1))
