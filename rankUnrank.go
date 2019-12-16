@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
+	"os"
 	"sort"
 	"time"
 )
@@ -126,6 +127,18 @@ func unrank(arr []int, n int, r int) []int {
 	return unrPrm
 }
 
+func listAll(arr []int, max int, ln int, rank int) {
+
+	if rank > max {
+		os.Exit(0)
+	}
+
+	newArr := cpyArr(arr)
+
+	fmt.Println(rank, ":", unrank(newArr, ln, rank))
+	listAll(arr, max, ln, rank+1)
+}
+
 func main() {
 
 	rand.Seed(time.Now().UnixNano())
@@ -139,13 +152,14 @@ func main() {
 		fmt.Println("Err")
 	}
 
-	var inpArr, stdArr, befArr, aftArr, rankArr []int
+	var inpArr, stdArr, befArr, aftArr, rankArr, recArr []int
 
 	inpArr = genArr(ln)
 	stdArr = sortArr(inpArr)
 	rankArr = cpyArr(inpArr)
 	befArr = cpyArr(stdArr)
 	aftArr = cpyArr(stdArr)
+	recArr = cpyArr(stdArr)
 
 	fmt.Println("Permutacja:", inpArr)
 
@@ -173,4 +187,15 @@ func main() {
 			fmt.Println("  Następnik: ", unrank(aftArr, ln, rank+1))
 		}
 	}
+
+	var la string
+	fmt.Print("Wylistować wszystkie permutacje? (T/N) >> ")
+	_, err = fmt.Scanf("%s", &la)
+
+	if la[0] == 'T' || la[0] == 't' {
+		listAll(recArr, fct, ln, 1)
+	} else {
+		os.Exit(0)
+	}
+
 }
