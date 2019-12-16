@@ -65,30 +65,33 @@ func genArr(n int) []int {
 }
 
 func findSmaller(arr []int, low int, high int) int {
-	var cr, i int
-
+	var cr int
 	cr = 0
 
-	for i = low + 1; i <= high; i++ {
+	for i := low + 1; i <= high; i++ {
 		if arr[i] < arr[low] {
 			cr++
 		}
-		i++
+
 	}
 
 	return cr
+
 }
 
-func rank(arr []int, ln int) int {
+func findRank(arr []int) int {
 
-	var mul, r, cr int
+	var ln, mul, r, cr int
 
+	ln = len(arr)
 	mul = fact(ln)
+
 	r = 1
 
 	for i := 0; i < ln; i++ {
 		mul /= ln - i
 		cr = findSmaller(arr, i, ln-1)
+
 		r += cr * mul
 	}
 
@@ -146,27 +149,28 @@ func main() {
 
 	fmt.Println("Permutacja:", inpArr)
 
+	rank := findRank(rankArr)
+
+	fmt.Println("Rank:", rank)
+
 	fmt.Println("Len:", ln)
 
 	fct := fact(ln)
 	fmt.Println("Max:", fct)
 
-	r := rank(rankArr, ln)
-	fmt.Println("Rank:", r)
-
-	if r <= 0 || r > fct {
-		fmt.Println("Perm (", r, ") nie istnieje.")
+	if rank <= 0 || rank > fct {
+		fmt.Println("Perm (", rank, ") nie istnieje.")
 	} else {
-		fmt.Println("Perm (", r, "): ", unrank(stdArr, ln, r))
-		if r-1 <= 0 {
+		fmt.Println("Perm (", rank, "): ", unrank(stdArr, ln, rank))
+		if rank-1 <= 0 {
 			fmt.Println("Poprzednik nie istnieje.")
 		} else {
-			fmt.Println(" Poprzednik: ", unrank(befArr, ln, r-1))
+			fmt.Println(" Poprzednik: ", unrank(befArr, ln, rank-1))
 		}
-		if r+1 >= fct-1 {
+		if rank+1 >= fct-1 {
 			fmt.Println("Następnik nie istnieje.")
 		} else {
-			fmt.Println("  Następnik: ", unrank(aftArr, ln, r+1))
+			fmt.Println("  Następnik: ", unrank(aftArr, ln, rank+1))
 		}
 	}
 }
