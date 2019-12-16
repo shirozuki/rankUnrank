@@ -1,11 +1,14 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"math"
 	"math/rand"
 	"os"
+	"runtime"
 	"sort"
+	"strings"
 	"time"
 )
 
@@ -188,11 +191,19 @@ func main() {
 		}
 	}
 
-	var la string
-	fmt.Print("Wylistować wszystkie permutacje? (T/N) >> ")
-	_, err = fmt.Scanf("%s", &la)
+	reader := bufio.NewReader(os.Stdin)
 
-	if la[0] == 'T' || la[0] == 't' {
+	fmt.Print("\nWypisać wszystkie permutacje? (T/N) >> ")
+	listPerms, _ := reader.ReadString('\n')
+	fmt.Println()
+
+	if runtime.GOOS == "windows" {
+		listPerms = strings.Replace(listPerms, "\r\n", "", -1)
+	} else {
+		listPerms = strings.Replace(listPerms, "\n", "", -1)
+	}
+
+	if strings.Compare("T", listPerms) == 0 || strings.Compare("t", listPerms) == 0 {
 		listAll(recArr, fct, ln, 1)
 	} else {
 		os.Exit(0)
